@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "archiver"
+version = "0.1.0"
+description = "Specialized component that fetches files from an S3 compatible backend and generates an archive with directory structure."
+authors = ["Theo Bob Massard <tbobm@protonmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+packages = [
+    { include = "archiver", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+boto3 = "^1.34.35"
+structlog = "^24.1.0"
+pydantic = "^2.6.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pylint = "^3.0.3"
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+archiver = "archiver.main:main"

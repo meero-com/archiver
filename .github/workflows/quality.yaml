@@ -1,0 +1,57 @@
+---
+name: "Quality analysis"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit-tests:
+    name: "Linting and unit tests"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: "Set up Python 3.11"
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: 'poetry'
+
+      - name: Install dependencies and archiver
+        run: poetry install
+
+      - name: Lint with pylint
+        run: poetry run pylint --errors-only src/
+
+      - name: Test with pytest
+        run: poetry run pytest tests
+
+  e2e-tests:
+    name: "End to End tests"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: "Set up Python 3.11"
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: 'poetry'
+
+      - name: Install dependencies and archiver
+        run: poetry install
+
+      - name: Bootstrap localstack
+        run: docker compose up -d --wait
+
+      - name: Run end to end tests
+        run: poetry run pytest e2e/

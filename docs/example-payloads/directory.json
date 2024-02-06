@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "source": "s3://source-bucket/example-directory/uuid1.png",
+      "directory": "album_1"
+    },
+    {
+      "source": "s3://source-bucket/example-directory/uuid2.png",
+      "directory": "album_1"
+    },
+    {
+      "source": "s3://source-bucket/example-directory/uuid3.png",
+      "directory": "album_2"
+    }
+  ]
+}

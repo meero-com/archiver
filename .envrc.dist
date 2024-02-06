@@ -1,0 +1,11 @@
+export S3_SOURCE_BUCKET=source-images
+export S3_DESTINATION_BUCKET=zip-storage
+export SQS_SOURCE_QUEUE=input-queue
+export SQS_DESTINATION_QUEUE=output-queue
+
+export AWS_ACCESS_KEY_ID=test
+export AWS_SECRET_ACCESS_KEY=test
+export AWS_ENDPOINT_URL=http://localhost:4566/
+
+export DEV_MODE=1
+export DEBUG=1
