@@ -8,4 +8,4 @@ export AWS_SECRET_ACCESS_KEY=test
 export AWS_ENDPOINT_URL=http://localhost:4566/
 
 export DEV_MODE=1
-export DEBUG=1
+export APP_DEBUG=1

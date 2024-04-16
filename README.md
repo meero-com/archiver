@@ -50,7 +50,7 @@ Below is a table with each required and optional environment variables:
 | `S3_DESTINATION_BUCKET` | Target S3 bucket to store the archive files. | `None` |
 | `S3_SOURCE_BUCKET` | Source S3 bucket that contains the media used to create the archive by default. | `None` |
 | `S3_FILE_PREFIX` | The prefix that will be added to each archive created. | `download` |
-| `DEBUG` | Enable debug log level. | `0` |
+| `APP_DEBUG` | Enable debug log level. | `0` |
 | `DEV_MODE` | Use console rendering for logs instead of JSON rendering. | `0` |
 
 ### In AWS

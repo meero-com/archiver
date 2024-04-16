@@ -23,7 +23,7 @@ from pydantic import ValidationError
 from archiver.config import (
     ARCHIVE_BASE_URL,
     AWS_ENDPOINT_URL,
-    DEBUG,
+    APP_DEBUG,
     DEV_MODE,
     SQS_DESTINATION,
     SQS_SOURCE,
@@ -170,7 +170,7 @@ def bootstrap_archiver(logger):
 
 def main():
     """Archiver entrypoint."""
-    debug_mode, dev_mode = DEBUG == 1, DEV_MODE == 1
+    debug_mode, dev_mode = APP_DEBUG == 1, DEV_MODE == 1
     logger = bootstrap_logging('archiver', debug_mode, dev_mode)
     logger.info("bootstrap archiver boto clients")
     sqs_client, s3_client = bootstrap_archiver(logger)
