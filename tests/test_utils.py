@@ -26,7 +26,7 @@ def test_generate_destination_path():
     date = datetime.datetime.now()
     actual_date = date.date().isoformat()
     generated_path = archiver.utils.generate_s3_destination_path(date)
-    assert generated_path.endswith(f'meero-download-{actual_date}.zip')
+    assert generated_path.endswith(f'download-{actual_date}.zip')
 
 @pytest.mark.parametrize(
     'source,destination',

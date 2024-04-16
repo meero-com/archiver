@@ -7,7 +7,7 @@ import typing
 from zipfile import ZipFile, ZipInfo
 import re
 
-from archiver.config import S3_SOURCE_BUCKET
+from archiver.config import S3_SOURCE_BUCKET, S3_FILE_PREFIX
 from archiver.payload import MediaSpec
 
 
@@ -76,7 +76,7 @@ def generate_s3_destination_path(creation_date: datetime) -> str:
     prefix_hash.update(date.encode('utf-8'))
     digest = prefix_hash.hexdigest()
 
-    file_prefix = 'meero-download'
+    file_prefix = S3_FILE_PREFIX
     filename = creation_date.date().isoformat()
     archive_path = f"{digest}/{file_prefix}-{filename}.zip"
     return archive_path
