@@ -2,7 +2,7 @@
 
 Two output modes are available and configurable through
 the following environment variables:
-    - DEBUG: set the log level to logging.DEBUG.
+    - APP_DEBUG: set the log level to logging.DEBUG.
     - DEV_MODE: set the log output to ConsoleRenderer.
 
 These attributes should be retrieved by the calling scope to avoid referencing

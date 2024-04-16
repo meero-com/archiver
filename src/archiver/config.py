@@ -3,7 +3,7 @@ import os
 
 ARCHIVE_BASE_URL = os.environ.get("ARCHIVE_BASE_URL", "")
 AWS_ENDPOINT_URL = os.environ.get("AWS_ENDPOINT_URL")
-DEBUG = int(os.environ.get('DEBUG', "0"))
+APP_DEBUG = int(os.environ.get('APP_DEBUG', "0"))
 DEV_MODE = int(os.environ.get('DEV_MODE', "0"))
 
 SQS_SOURCE = os.environ.get('SQS_SOURCE_QUEUE')
