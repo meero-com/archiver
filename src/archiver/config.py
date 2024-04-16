@@ -6,12 +6,10 @@ AWS_ENDPOINT_URL = os.environ.get("AWS_ENDPOINT_URL")
 DEBUG = int(os.environ.get('DEBUG', "0"))
 DEV_MODE = int(os.environ.get('DEV_MODE', "0"))
 
-SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "noreply@meero.com")
-SENDER_NAME = os.environ.get("SENDER_NAME", "Meero")
-
 SQS_SOURCE = os.environ.get('SQS_SOURCE_QUEUE')
 S3_SOURCE_BUCKET = os.environ.get('S3_SOURCE_BUCKET')
 S3_DESTINATION_BUCKET = os.environ.get('S3_DESTINATION_BUCKET')
+S3_FILE_PREFIX = os.environ.get("S3_FILE_PREFIX", "download")
 
 SQS_DESTINATION = os.environ.get('SQS_DESTINATION_QUEUE')
 

@@ -13,7 +13,7 @@ def test_valid_payload_sqs(mock_aws, monkeypatch):
         },
       ],
       "sendgrid_template_id": "d-xxxxxx",
-      "user_email": "customer@meero.com"
+      "user_email": "customer@e2e.test"
     }
     payload = {
         'Messages': [

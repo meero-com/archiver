@@ -6,11 +6,11 @@ Create a zip archive of several S3 files and upload it to an S3 bucket.
 
 ## Features
 
-- Retrieve payloads from an SQS Queue
-- Create a Zip archive from a list of media
-- Optionally create a directory structure inside the zip
-- Upload the zip file to an S3 bucket
-- Notify a consumer once the archive is ready to be downloaded
+- Retrieve payloads from an SQS Queue.
+- Create a Zip archive from a list of media.
+- Optionally create a directory structure inside the zip.
+- Upload the zip file to an S3 bucket.
+- Notify a consumer once the archive is ready to be downloaded.
 
 ### Example payload
 
@@ -46,9 +46,10 @@ Below is a table with each required and optional environment variables:
 |----------|-------------|---------------|
 | `ARCHIVE_BASE_URL` | Base path for the Archive URL links. | `None` |
 | `SQS_DESTINATION_QUEUE` | SQS Queue to send message to downstream consumer. | `None` |
-| `SQS_SOURCE_QUEUE` | SQS Queue to retrieve payloads from | `None` |
+| `SQS_SOURCE_QUEUE` | SQS Queue to retrieve payloads from. | `None` |
 | `S3_DESTINATION_BUCKET` | Target S3 bucket to store the archive files. | `None` |
-| `S3_SOURCE_BUCKET` | Source S3 bucket that contains the media used to create the archive by default | `None` |
+| `S3_SOURCE_BUCKET` | Source S3 bucket that contains the media used to create the archive by default. | `None` |
+| `S3_FILE_PREFIX` | The prefix that will be added to each archive created. | `download` |
 | `DEBUG` | Enable debug log level. | `0` |
 | `DEV_MODE` | Use console rendering for logs instead of JSON rendering. | `0` |
 
@@ -56,9 +57,10 @@ Below is a table with each required and optional environment variables:
 
 This project is intended to be deployed as an ECS Service inside AWS.
 It requires the following permissions:
-- Interact with an SQS Queue
-- Read from the source S3 bucket (media files)
-- Write to the destination S3 bucket (zip archives)
+
+- Interact with an SQS Queue.
+- Read from the source S3 bucket (media files).
+- Write to the destination S3 bucket (zip archives).
 
 It should be able to scale based on the SQS Queue's number of message.
 
@@ -67,8 +69,9 @@ It should be able to scale based on the SQS Queue's number of message.
 Localstack is available through the docker-compose manifest at the top-level directory of this project.
 
 It is currently setup to:
-- Configure 2 S3 buckets (source-images, zip-storage)
-- Have 2 SQS Queues (input-queue and input-queue-dlq DLQ configured for retry)
+
+- configure 2 S3 buckets (source-images, zip-storage);
+- have 2 SQS Queues (input-queue and input-queue-dlq DLQ configured for retry).
 
 To ease configuration for local development, this projects relies on [`direnv`][direnv] which
 automatically loads `.envrc` files and injects the found variables in the current environment context.
@@ -117,18 +120,19 @@ flowchart TD
 ```
 
 The program has the following executive flow:
-* (1) Initialize the archiver worker
-  - Instantiate the SQS and S3 boto3 clients
-  - Start polling messages from the SQS Queue
-* (2) Process each SQS Message (polling)
-  - Retrieve the message from SQS
-  - Transform the payload into an easy to manipulate dataclass
-  - Create an in-memory file like object used to create the zip file
-  - For each file in the payload, download the s3 object and insert it in the
-  zip file
-  - Upload the zip file to the destination S3 bucket
-  - Notify downstream consumers by sending an SQS message
-  - Acknowledge the SQS message processing
+
+1. Initialize the archiver worker:
+    - Instantiate the SQS and S3 boto3 clients.
+    - Start polling messages from the SQS Queue.
+2. Process each SQS Message (polling):
+    - Retrieve the message from SQS.
+    - Transform the payload into an easy to manipulate dataclass.
+    - Create an in-memory file like object used to create the zip file.
+    - For each file in the payload, download the s3 object and insert it in the
+  zip file.
+    - Upload the zip file to the destination S3 bucket.
+    - Notify downstream consumers by sending an SQS message.
+    - Acknowledge the SQS message processing.
 
 ## Releases
 

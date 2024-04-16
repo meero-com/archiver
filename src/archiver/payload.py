@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 class MediaSpec(BaseModel):
     """Media definition spec.
-    The `source` attribute represents an S3 prefix or a full s3 path
+    The `source` attribute represents an S3 prefix or a full s3 path.
     The optional `destination` attribute sets the directory and
     file name in the created Zip archive.
     """

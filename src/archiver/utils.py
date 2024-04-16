@@ -7,7 +7,7 @@ import typing
 from zipfile import ZipFile, ZipInfo
 import re
 
-from archiver.config import S3_SOURCE_BUCKET
+from archiver.config import S3_SOURCE_BUCKET, S3_FILE_PREFIX
 from archiver.payload import MediaSpec
 
 
@@ -30,12 +30,12 @@ def process_file(s3_client, zip_file, file, s3_bucket, s3_key):
 
 
 def _forge_zip_path(file: MediaSpec):
-    """Return the path of the file used inside the Zip Archive.
+    """Return the path of the file used inside the Zip archive.
 
     This function covers the following scenarios:
-    - unset MediaSpec.destination: path is filename
-    - destination is not a filename: put filename in destination directory
-    - destination looks like a filename (extension): destination is file location
+    - `destination` has no value: path is `source`;
+    - `destination` has no extension: put `source` in `destination` directory;
+    - `destination` has an extension: `destination` is file location.
 
     >>> _forge_zip_path(MediaSpec("abc/def/file.jpg", None))
     'file.jpg'
@@ -56,9 +56,8 @@ def _forge_zip_path(file: MediaSpec):
 def create_zip_file() -> typing.Union[ZipFile, BytesIO]:
     """Instantiate a ZipFile in-memory object.
 
-    Return the BytesIO instance in order to easily upload
-    it to the S3 Destination bucket once the archive creation is
-    completed.
+    Return the BytesIO instance in order to easily upload it to
+    the S3 Destination bucket once the archive creation is completed.
     """
     file_like_object = BytesIO()
     zip_file = ZipFile(file_like_object, "w")
@@ -66,18 +65,18 @@ def create_zip_file() -> typing.Union[ZipFile, BytesIO]:
 
 
 def generate_s3_destination_path(creation_date: datetime) -> str:
-    """Generate the S3 prefix for the created archvie.
+    """Generate the S3 prefix for the created archive.
 
     The destination S3 prefix is forged using:
-        - a sha256 hash based on the creation_date
-        - a date-based templated zip filename
+        - a sha256 hash based on the creation_date;
+        - a date-based templated zip filename.
     """
     date = creation_date.isoformat()
     prefix_hash = hashlib.new('sha256')
     prefix_hash.update(date.encode('utf-8'))
     digest = prefix_hash.hexdigest()
 
-    file_prefix = 'meero-download'
+    file_prefix = S3_FILE_PREFIX
     filename = creation_date.date().isoformat()
     archive_path = f"{digest}/{file_prefix}-{filename}.zip"
     return archive_path
@@ -86,10 +85,10 @@ def generate_s3_source_infos_from_payload(file: MediaSpec):
     """Extract s3 source informations from the payload
 
     The source can be just an s3 key in the S3_SOURCE_BUCKET or a
-    full s3 path like s3://foobar/cool_object.jpg.
+    full s3 path like `s3://foobar/cool_object.jpg`.
 
-    - Extract the S3 bucket name - Fallback to S3_SOURCE_BUCKET
-    - Extract the S3 key - Fallback to file.source
+    - Extract the S3 bucket name - Fallback to S3_SOURCE_BUCKET.
+    - Extract the S3 key - Fallback to file.source.
     """
     result = re.search(r'^(s3://)?([^/]*)/(.*)$', file.source)
     groups = result.groups() if result is not None else ('', '', '')

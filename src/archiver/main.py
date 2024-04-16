@@ -3,15 +3,15 @@
 Configuration operates through environment variables exclusively (see `archiver.config`).
 
 The archiver has the following flow:
-    - Instantiate logger
-    - Instantiate boto clients (S3, SQS)
-    - Start polling message (infinite loop)
+    - Instantiate logger.
+    - Instantiate boto clients (S3, SQS).
+    - Start polling message (infinite loop).
 
 Each processed message will trigger the following processing:
-    - Create an in-memory file-like object based ZipFile
-    - Download each media and write it to the archive
-    - Upload the archive to the S3_DESTINATION_BUCKET
-    - Send SQS message to downstream consumers
+    - Create an in-memory file-like object based ZipFile.
+    - Download each media and write it to the archive.
+    - Upload the archive to the S3_DESTINATION_BUCKET.
+    - Send SQS message to downstream consumers.
 """
 import os
 from datetime import datetime
@@ -51,7 +51,7 @@ def poll_sqs(sqs_client, queue_url, logger):
     """Retrieve a message from the source SQS Queue.
 
     Interacting with the WaitTimeSeconds argument of the receive_message
-    function allow to balance between cost efficiency and performances.
+    function allows to balance between cost efficiency and performances.
     """
     while True:
         response = sqs_client.receive_message(
