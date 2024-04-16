@@ -1,9 +1,9 @@
 """Bootstrap archiver logging.
 
-Two output modes modes are available and configurable through
+Two output modes are available and configurable through
 the following environment variables:
-    - DEBUG: set the log level to logging.DEBUG
-    - DEV_MODE: set the log output to ConsoleRenderer
+    - DEBUG: set the log level to logging.DEBUG.
+    - DEV_MODE: set the log output to ConsoleRenderer.
 
 These attributes should be retrieved by the calling scope to avoid referencing
 configuration directly from the utility `archiver.logs` submodule to enforce
@@ -20,9 +20,9 @@ from structlog.dev import ConsoleRenderer
 def bootstrap_logging(logger_name: str, enable_debug: bool, dev_mode: bool) -> BoundLogger:
     """Configure the logger `logger_name` with format and log level.
 
-    Default behavior is to set log level to logging.INFO and output to JSON.
+    Default behavior is to set the log level to logging.INFO and output to JSON.
 
-    The `logger_name` allow to identity the logger and possibly cache it
+    The `logger_name` allow to identify the logger and possibly cache it
     for further retrieval from this function.
 
     Set `enable_debug` to `True` to lower the default log level (logging.INFO) to
