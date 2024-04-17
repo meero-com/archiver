@@ -3,15 +3,37 @@ name: "CICD"
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - 'main'
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  release:
+    runs-on: "ubuntu-latest"
+    name: "Release"
+    outputs:
+      new_release_published: ${{ steps.release.outputs.new_release_published }}
+      new_release_version: ${{ steps.release.outputs.new_release_version }}
+      new_release_major_version: ${{ steps.release.outputs.new_release_major_version }}
+      new_release_minor_version: ${{ steps.release.outputs.new_release_minor_version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Semantic Release
+        id: release
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          semantic_version: 23
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-docker-image:
+    needs:
+      - release
+    if: needs.release.outputs.new_release_published == 'true'
     name: "Build container images"
     runs-on: "ubuntu-latest"
     steps:
@@ -35,7 +57,10 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: type=semver,pattern={{version}}
+          tags: |
+            type=raw,value=${{ needs.release.outputs.new_release_version }}
+            type=raw,value=${{ needs.release.outputs.new_release_major_version }}
+            type=raw,value=${{ needs.release.outputs.new_release_major_version }}.${{ needs.release.outputs.new_release_minor_version }}
 
       - name: Build tag, and push Container Image to Registry
         id: build-image
