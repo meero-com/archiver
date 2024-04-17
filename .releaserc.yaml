@@ -1,0 +1,106 @@
+branches:
+  - name: main
+    prerelease: false
+
+debug: false
+ci: true
+dryRun: false
+tagFormat: "${version}"
+plugins:
+  - "@semantic-release/commit-analyzer"
+  - "@semantic-release/release-notes-generator"
+  - "@semantic-release/github"
+
+successComment: false
+failComment: false
+
+analyzeCommits:
+  - path: '@semantic-release/commit-analyzer'
+    releaseRules:
+      - breaking: true # BREAKING CHANGE: token should be on the footer of the commit message
+        release: major
+
+      - type: build
+        release: patch
+
+      - type: chore
+        release: false
+
+      - type: ci
+        release: false
+
+      - type: docs
+        release: false
+
+      - type: feat
+        release: minor
+
+      - type: fix
+        release: patch
+
+      - type: perf
+        release: patch
+
+      - type: refactor
+        release: false
+
+      - type: revert
+        release: patch
+
+      - type: style
+        release: false
+
+      - type: test
+        release: false
+
+generateNotes:
+  - path: '@semantic-release/release-notes-generator'
+    presetConfig:
+      types:
+        - type: 'build'
+          section: 'Build System'
+          hidden: true
+
+        - type: 'chore'
+          section: 'Miscellaneous Chores'
+          hidden: false
+
+        - type: 'ci'
+          section: 'Continuous Integration'
+          hidden: true
+
+        - type: 'docs'
+          section: 'Documentation'
+          hidden: true
+
+        - type: 'feat'
+          section: 'Features'
+          hidden: false
+
+        - type: 'feature'
+          section: 'Features'
+          hidden: false
+
+        - type: 'fix'
+          section: 'Bug Fixes'
+          hidden: false
+
+        - type: 'perf'
+          section: 'Performance Improvements'
+          hidden: false
+
+        - type: 'refactor'
+          section: 'Code Refactoring'
+          hidden: false
+
+        - type: 'revert'
+          section: 'Reverts'
+          hidden: false
+
+        - type: 'style'
+          section: 'Styles'
+          hidden: true
+
+        - type: 'test'
+          section: 'Tests'
+          hidden: true
