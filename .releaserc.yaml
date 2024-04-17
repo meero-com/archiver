@@ -5,7 +5,7 @@ branches:
 debug: false
 ci: true
 dryRun: false
-tagFormat: "${version}"
+tagFormat: "v${version}"
 plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
