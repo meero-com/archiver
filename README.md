@@ -93,7 +93,7 @@ Every time you want to run aws commands, ensure that endpoint_url is added for a
 
 #### Import file to S3 buckets
 ```bash
-aws s3 cp ~/${path_to_your_file} s3://source-images \
+aws s3 cp $path_to_your_file s3://source-images \
 --endpoint-url http://localhost:4566
 ```
 
