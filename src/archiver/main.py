@@ -150,10 +150,6 @@ def process_archive(s3_client, sqs_client, sqs_response, logger):
         QueueUrl=SQS_SOURCE,
         ReceiptHandle=message['ReceiptHandle'],
     )
-    logger.info(
-        "done processing request with template_id=%s",
-        content['sendgrid_template_id'],
-    )
     return archive_s3_path
 
 

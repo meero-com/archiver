@@ -66,7 +66,7 @@ It should be able to scale based on the SQS Queue's number of message.
 
 ### Local
 
-Localstack is available through the docker-compose manifest at the top-level directory of this project.
+Localstack and archiver services are available through the docker-compose manifest at the top-level directory of this project.
 
 It is currently setup to:
 
@@ -78,19 +78,31 @@ automatically loads `.envrc` files and injects the found variables in the curren
 
 [direnv]: https://direnv.net/
 
-In order to start the localstack container, you can run the following commands:
+In order to start containers, you can run the following commands:
 
 ```console
 $ cp .envrc.dist .envrc
 $ docker compose up -d
-$ poetry install
-$ poetry run archiver
 ```
 
 You can now rely on the http://localhost:4566/ endpoint with the fake credentials to
 send messages in the localstack queues.
 
+### Service usage example
+Every time you want to run aws commands, ensure that endpoint_url is added for any localstack calls
 
+#### Import file to S3 buckets
+```bash
+aws s3 cp ~/${path_to_your_file} s3://source-images \
+--endpoint-url http://localhost:4566
+```
+
+#### Ensure file is properly imported
+```bash
+aws s3 ls --recursive s3://source-images
+```
+
+#### Send message to SQS queue
 ```bash
 aws sqs send-message --queue-url http://localhost:4566/000000000000/input-queue \
   --endpoint-url http://localhost:4566 --message-body \
