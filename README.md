@@ -1,4 +1,6 @@
-# Media Archiver
+# Archiver
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [![Quality analysis](https://github.com/meero-com/archiver/actions/workflows/quality.yaml/badge.svg)](https://github.com/meero-com/archiver/actions/workflows/quality.yaml) [![CICD](https://github.com/meero-com/archiver/actions/workflows/ci.yaml/badge.svg)](https://github.com/meero-com/archiver/actions/workflows/ci.yaml)
 
