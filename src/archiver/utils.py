@@ -8,7 +8,7 @@ from zipfile import ZipFile, ZipInfo
 import re
 
 from archiver.config import S3_SOURCE_BUCKET, S3_FILE_PREFIX
-from archiver.payload import MediaSpec
+from archiver.payload import FileSpec
 
 
 def process_file(s3_client, zip_file, file, s3_bucket, s3_key):
@@ -29,7 +29,7 @@ def process_file(s3_client, zip_file, file, s3_bucket, s3_key):
     return data
 
 
-def _forge_zip_path(file: MediaSpec):
+def _forge_zip_path(file: FileSpec):
     """Return the path of the file used inside the Zip archive.
 
     This function covers the following scenarios:
@@ -37,11 +37,11 @@ def _forge_zip_path(file: MediaSpec):
     - `destination` has no extension: put `source` in `destination` directory;
     - `destination` has an extension: `destination` is file location.
 
-    >>> _forge_zip_path(MediaSpec("abc/def/file.jpg", None))
+    >>> _forge_zip_path(FileSpec("abc/def/file.jpg", None))
     'file.jpg'
-    >>> _forge_zip_path(MediaSpec("file.jpg", "directory"))
+    >>> _forge_zip_path(FileSpec("file.jpg", "directory"))
     'directory/file.jpg'
-    >>> _forge_zip_path(MediaSpec("file.jpg", "directory/pretty name.jpg"))
+    >>> _forge_zip_path(FileSpec("file.jpg", "directory/pretty name.jpg"))
     'directory/pretty name.jpg'
     """
     _, filename = path.split(file.source)
@@ -81,7 +81,7 @@ def generate_s3_destination_path(creation_date: datetime) -> str:
     archive_path = f"{digest}/{file_prefix}-{filename}.zip"
     return archive_path
 
-def generate_s3_source_infos_from_payload(file: MediaSpec):
+def generate_s3_source_infos_from_payload(file: FileSpec):
     """Extract s3 source informations from the payload
 
     The source can be just an s3 key in the S3_SOURCE_BUCKET or a
