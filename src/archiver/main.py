@@ -9,7 +9,7 @@ The archiver has the following flow:
 
 Each processed message will trigger the following processing:
     - Create an in-memory file-like object based ZipFile.
-    - Download each media and write it to the archive.
+    - Download each file and write it to the archive.
     - Upload the archive to the S3_DESTINATION_BUCKET.
     - Send SQS message to downstream consumers.
 """
@@ -40,7 +40,7 @@ from archiver.utils import (
     process_file,
     generate_s3_source_infos_from_payload
 )
-from archiver.payload import MediaSpec, PayloadSpec
+from archiver.payload import FileSpec, PayloadSpec
 from archiver.logs import bootstrap_logging
 
 
@@ -91,7 +91,7 @@ def process_archive(s3_client, sqs_client, sqs_response, logger):
     )
     archive_s3_path = generate_s3_destination_path(datetime.now())
 
-    source_files = [MediaSpec(**item) for item in content['files']]
+    source_files = [FileSpec(**item) for item in content['files']]
 
     logger.info(
         "processing message for archive %s",

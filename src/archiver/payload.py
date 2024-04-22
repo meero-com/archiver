@@ -5,8 +5,8 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel
 
 
-class MediaSpec(BaseModel):
-    """Media definition spec.
+class FileSpec(BaseModel):
+    """File definition spec.
     The `source` attribute represents an S3 prefix or a full s3 path.
     The optional `destination` attribute sets the directory and
     file name in the created Zip archive.
@@ -17,7 +17,7 @@ class MediaSpec(BaseModel):
 
 class PayloadSpec(BaseModel):
     """Archiver payload spec."""
-    files: List[MediaSpec]
+    files: List[FileSpec]
     metadata: Optional[Dict[str, Any]] = None
 
 

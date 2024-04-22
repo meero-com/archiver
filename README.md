@@ -9,7 +9,7 @@ Create a zip archive of several S3 files and upload it to an S3 bucket.
 ## Features
 
 - Retrieve payloads from an SQS Queue.
-- Create a Zip archive from a list of media.
+- Create a Zip archive from a list of files.
 - Optionally create a directory structure inside the zip.
 - Upload the zip file to an S3 bucket.
 - Notify a consumer once the archive is ready to be downloaded.
@@ -50,7 +50,7 @@ Below is a table with each required and optional environment variables:
 | `SQS_DESTINATION_QUEUE` | SQS Queue to send message to downstream consumer. | `None` |
 | `SQS_SOURCE_QUEUE` | SQS Queue to retrieve payloads from. | `None` |
 | `S3_DESTINATION_BUCKET` | Target S3 bucket to store the archive files. | `None` |
-| `S3_SOURCE_BUCKET` | Source S3 bucket that contains the media used to create the archive by default. | `None` |
+| `S3_SOURCE_BUCKET` | Source S3 bucket that contains the files used to create the archive by default. | `None` |
 | `S3_FILE_PREFIX` | The prefix that will be added to each archive created. | `download` |
 | `APP_DEBUG` | Enable debug log level. | `0` |
 | `DEV_MODE` | Use console rendering for logs instead of JSON rendering. | `0` |
@@ -61,7 +61,7 @@ This project is intended to be deployed as an ECS Service inside AWS.
 It requires the following permissions:
 
 - Interact with an SQS Queue.
-- Read from the source S3 bucket (media files).
+- Read from the source S3 bucket (S3 objects).
 - Write to the destination S3 bucket (zip archives).
 
 It should be able to scale based on the SQS Queue's number of message.
